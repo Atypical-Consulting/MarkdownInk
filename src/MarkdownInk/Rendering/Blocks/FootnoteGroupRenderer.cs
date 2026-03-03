@@ -10,7 +10,7 @@ internal class FootnoteGroupRenderer : MarkdownObjectRenderer<SpectreRenderer, F
     protected override void Write(SpectreRenderer renderer, FootnoteGroup group)
     {
         var rule = new Rule($"[{ColorScheme.FootnoteRef}]Footnotes[/]");
-        rule.RuleStyle(Style.Parse(ColorScheme.Rule));
+        rule.RuleStyle(ColorScheme.RuleStyle);
         rule.Justification = Justify.Left;
         renderer.Console.Write(rule);
         renderer.Console.WriteLine();

@@ -19,19 +19,23 @@ public class BlockRendererTests
     }
 
     [Fact]
-    public void H3_Through_H6_Are_Rendered_With_Hash_Prefix()
+    public void H3_Through_H6_Are_Rendered_Without_Hash_Prefix()
     {
         var output = TestHelper.Render("### Level 3");
-        output.ShouldContain("### Level 3");
+        output.ShouldContain("Level 3");
+        output.ShouldNotContain("### Level 3");
 
         output = TestHelper.Render("#### Level 4");
-        output.ShouldContain("#### Level 4");
+        output.ShouldContain("Level 4");
+        output.ShouldNotContain("#### Level 4");
 
         output = TestHelper.Render("##### Level 5");
-        output.ShouldContain("##### Level 5");
+        output.ShouldContain("Level 5");
+        output.ShouldNotContain("##### Level 5");
 
         output = TestHelper.Render("###### Level 6");
-        output.ShouldContain("###### Level 6");
+        output.ShouldContain("Level 6");
+        output.ShouldNotContain("###### Level 6");
     }
 
     [Fact]
@@ -91,6 +95,41 @@ public class BlockRendererTests
         var output = TestHelper.Render(markdown);
         output.ShouldContain("Outer quote");
         output.ShouldContain("Inner quote");
+    }
+
+    [Fact]
+    public void Fenced_Code_Block_CSharp_Has_Syntax_Highlighting()
+    {
+        var markdown = """
+            ```csharp
+            public class Foo { }
+            ```
+            """;
+        var output = TestHelper.Render(markdown);
+        output.ShouldContain("public");
+        output.ShouldContain("class");
+        output.ShouldContain("Foo");
+    }
+
+    [Fact]
+    public void Fenced_Code_Block_Unknown_Language_Falls_Back_To_Monochrome()
+    {
+        var markdown = """
+            ```obscurelang
+            some code here
+            ```
+            """;
+        var output = TestHelper.Render(markdown);
+        output.ShouldContain("some code here");
+        output.ShouldContain("obscurelang");
+    }
+
+    [Fact]
+    public void Unfenced_Code_Block_Renders_Without_Crash()
+    {
+        var markdown = "    indented code block\n    second line\n";
+        var output = TestHelper.Render(markdown);
+        output.ShouldContain("indented code block");
     }
 
     [Fact]

@@ -10,7 +10,7 @@ internal class QuoteBlockRenderer : MarkdownObjectRenderer<SpectreRenderer, Quot
     {
         var previousPrefix = renderer.QuotePrefix;
         renderer.QuotePrefix = (previousPrefix ?? "")
-            + $"[{ColorScheme.BlockquoteBorder}]\u2595[/] ";
+            + $"[{ColorScheme.BlockquoteBorder}]\u2502[/] ";
 
         renderer.WriteChildren(obj);
 

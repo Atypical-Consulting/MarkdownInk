@@ -6,12 +6,15 @@ string markdown;
 if (args.Length > 0)
 {
     var path = args[0];
-    if (!File.Exists(path))
+    try
+    {
+        markdown = await File.ReadAllTextAsync(path);
+    }
+    catch (FileNotFoundException)
     {
         Console.Error.WriteLine($"Error: File not found: {path}");
         return 1;
     }
-    markdown = await File.ReadAllTextAsync(path);
 }
 else if (Console.IsInputRedirected)
 {

@@ -10,6 +10,7 @@ namespace MarkdownInk.Rendering;
 public class SpectreRenderer : RendererBase
 {
     internal readonly StringBuilder InlineBuffer = new();
+    internal readonly Lazy<SyntaxHighlighter> Highlighter = new(() => new SyntaxHighlighter());
     internal int IndentLevel;
     internal string? QuotePrefix;
     internal IAnsiConsole Console { get; }

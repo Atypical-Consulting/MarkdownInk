@@ -1,3 +1,5 @@
+using Spectre.Console;
+
 namespace MarkdownInk.Rendering;
 
 internal static class ColorScheme
@@ -22,12 +24,12 @@ internal static class ColorScheme
     public const string CodeBlockBorder = "grey35";
     public const string CodeBlockText = "chartreuse3";
     public const string BlockquoteBorder = "dodgerblue3";
-    public const string BlockquoteText = "italic grey78";
     public const string Rule = "grey50";
+    public static readonly Style RuleStyle = Style.Parse(Rule);
     public const string TaskChecked = "green";
     public const string TaskUnchecked = "grey50";
     public const string FootnoteRef = "bold yellow";
     public const string ListNumber = "white";
-    public const string TableBorder = "grey35";
+    public const string ListBullet = "dodgerblue3";
     public const string TableHeader = "bold cornflowerblue";
 }
