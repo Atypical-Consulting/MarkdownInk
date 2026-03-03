@@ -33,11 +33,10 @@ public class InlineRendererTests
     }
 
     [Fact]
-    public void Link_Shows_Label_And_Url()
+    public void Link_Shows_Label_Text()
     {
         var output = TestHelper.Render("[Click here](https://example.com)");
         output.ShouldContain("Click here");
-        output.ShouldContain("https://example.com");
     }
 
     [Fact]

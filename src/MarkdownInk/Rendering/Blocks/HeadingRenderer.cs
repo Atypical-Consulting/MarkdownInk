@@ -22,15 +22,14 @@ internal class HeadingRenderer : MarkdownObjectRenderer<SpectreRenderer, Heading
         if (obj.Level <= 2)
         {
             var rule = new Rule($"[{color}]{Markup.Escape(text)}[/]");
-            rule.RuleStyle(Style.Parse(ColorScheme.Rule));
+            rule.RuleStyle(ColorScheme.RuleStyle);
             if (obj.Level == 2)
                 rule.Justification = Justify.Left;
             renderer.Console.Write(rule);
         }
         else
         {
-            var prefix = new string('#', obj.Level) + " ";
-            renderer.Console.MarkupLine($"[{color}]{Markup.Escape(prefix + text)}[/]");
+            renderer.Console.MarkupLine($"[{color}]{Markup.Escape(text)}[/]");
         }
 
         renderer.Console.WriteLine();

@@ -29,7 +29,7 @@ internal class ListRenderer : MarkdownObjectRenderer<SpectreRenderer, ListBlock>
             else
             {
                 var bulletChar = Bullets[Math.Clamp(renderer.IndentLevel - 1, 0, Bullets.Length - 1)];
-                bullet = $"[{ColorScheme.BlockquoteBorder}]{bulletChar}[/] ";
+                bullet = $"[{ColorScheme.ListBullet}]{bulletChar}[/] ";
             }
 
             renderer.Console.Markup($"{indent}{bullet}");
