@@ -1,7 +1,7 @@
 using Markdig.Renderers;
 using Markdig.Syntax.Inlines;
 
-namespace mdink.Rendering.Inlines;
+namespace MarkdownInk.Rendering.Inlines;
 
 internal class LineBreakInlineRenderer : MarkdownObjectRenderer<SpectreRenderer, LineBreakInline>
 {

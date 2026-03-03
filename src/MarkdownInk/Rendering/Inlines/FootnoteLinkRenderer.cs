@@ -2,7 +2,7 @@ using Markdig.Extensions.Footnotes;
 using Markdig.Renderers;
 using Spectre.Console;
 
-namespace mdink.Rendering.Inlines;
+namespace MarkdownInk.Rendering.Inlines;
 
 internal class FootnoteLinkRenderer : MarkdownObjectRenderer<SpectreRenderer, FootnoteLink>
 {

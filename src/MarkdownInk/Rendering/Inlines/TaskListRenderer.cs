@@ -2,7 +2,7 @@ using Markdig.Extensions.TaskLists;
 using Markdig.Renderers;
 using Spectre.Console;
 
-namespace mdink.Rendering.Inlines;
+namespace MarkdownInk.Rendering.Inlines;
 
 internal class TaskListRenderer : MarkdownObjectRenderer<SpectreRenderer, TaskList>
 {

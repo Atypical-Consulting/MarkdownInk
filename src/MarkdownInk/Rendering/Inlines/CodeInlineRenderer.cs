@@ -2,7 +2,7 @@ using Markdig.Renderers;
 using Markdig.Syntax.Inlines;
 using Spectre.Console;
 
-namespace mdink.Rendering.Inlines;
+namespace MarkdownInk.Rendering.Inlines;
 
 internal class CodeInlineRenderer : MarkdownObjectRenderer<SpectreRenderer, CodeInline>
 {

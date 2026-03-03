@@ -8,7 +8,7 @@ using MarkdigTableRow = Markdig.Extensions.Tables.TableRow;
 using MarkdigTableCell = Markdig.Extensions.Tables.TableCell;
 using MarkdigTableColumnAlign = Markdig.Extensions.Tables.TableColumnAlign;
 
-namespace mdink.Rendering.Blocks;
+namespace MarkdownInk.Rendering.Blocks;
 
 internal class TableRenderer : MarkdownObjectRenderer<SpectreRenderer, MarkdigTable>
 {
@@ -75,8 +75,8 @@ internal class TableRenderer : MarkdownObjectRenderer<SpectreRenderer, MarkdigTa
             }
         }
 
-        AnsiConsole.Write(spectreTable);
-        AnsiConsole.WriteLine();
+        renderer.Console.Write(spectreTable);
+        renderer.Console.WriteLine();
     }
 
     private static string RenderCellText(SpectreRenderer renderer, MarkdigTableCell cell)

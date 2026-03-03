@@ -2,7 +2,7 @@ using Markdig.Renderers;
 using Markdig.Syntax;
 using Spectre.Console;
 
-namespace mdink.Rendering.Blocks;
+namespace MarkdownInk.Rendering.Blocks;
 
 internal class ThematicBreakRenderer : MarkdownObjectRenderer<SpectreRenderer, ThematicBreakBlock>
 {
@@ -10,7 +10,7 @@ internal class ThematicBreakRenderer : MarkdownObjectRenderer<SpectreRenderer, T
     {
         var rule = new Rule();
         rule.RuleStyle(Style.Parse(ColorScheme.Rule));
-        AnsiConsole.Write(rule);
-        AnsiConsole.WriteLine();
+        renderer.Console.Write(rule);
+        renderer.Console.WriteLine();
     }
 }

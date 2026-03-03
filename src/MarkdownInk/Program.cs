@@ -1,5 +1,5 @@
 using Markdig;
-using mdink.Rendering;
+using MarkdownInk.Rendering;
 
 string markdown;
 

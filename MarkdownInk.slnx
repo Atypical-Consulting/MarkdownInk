@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/MarkdownInk/MarkdownInk.csproj" />
+  <Project Path="tests/MarkdownInk.Tests/MarkdownInk.Tests.csproj" />
+</Solution>

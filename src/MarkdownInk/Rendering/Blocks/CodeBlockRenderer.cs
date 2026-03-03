@@ -3,7 +3,7 @@ using Markdig.Renderers;
 using Markdig.Syntax;
 using Spectre.Console;
 
-namespace mdink.Rendering.Blocks;
+namespace MarkdownInk.Rendering.Blocks;
 
 internal class CodeBlockRenderer : MarkdownObjectRenderer<SpectreRenderer, CodeBlock>
 {
@@ -34,7 +34,7 @@ internal class CodeBlockRenderer : MarkdownObjectRenderer<SpectreRenderer, CodeB
         if (lang is not null)
             panel.Header($"[{ColorScheme.CodeBlockBorder}]{Markup.Escape(lang)}[/]");
 
-        AnsiConsole.Write(panel);
-        AnsiConsole.WriteLine();
+        renderer.Console.Write(panel);
+        renderer.Console.WriteLine();
     }
 }

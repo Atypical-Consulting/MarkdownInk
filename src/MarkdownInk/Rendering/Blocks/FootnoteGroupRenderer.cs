@@ -3,7 +3,7 @@ using Markdig.Renderers;
 using Markdig.Syntax;
 using Spectre.Console;
 
-namespace mdink.Rendering.Blocks;
+namespace MarkdownInk.Rendering.Blocks;
 
 internal class FootnoteGroupRenderer : MarkdownObjectRenderer<SpectreRenderer, FootnoteGroup>
 {
@@ -12,8 +12,8 @@ internal class FootnoteGroupRenderer : MarkdownObjectRenderer<SpectreRenderer, F
         var rule = new Rule($"[{ColorScheme.FootnoteRef}]Footnotes[/]");
         rule.RuleStyle(Style.Parse(ColorScheme.Rule));
         rule.Justification = Justify.Left;
-        AnsiConsole.Write(rule);
-        AnsiConsole.WriteLine();
+        renderer.Console.Write(rule);
+        renderer.Console.WriteLine();
 
         foreach (var child in group)
         {
@@ -27,10 +27,10 @@ internal class FootnoteGroupRenderer : MarkdownObjectRenderer<SpectreRenderer, F
             }
             var text = renderer.DrainInlineBuffer();
 
-            AnsiConsole.MarkupLine(
+            renderer.Console.MarkupLine(
                 $"[{ColorScheme.FootnoteRef}]{Markup.Escape($"[{footnote.Order}]")}[/] {text}");
         }
 
-        AnsiConsole.WriteLine();
+        renderer.Console.WriteLine();
     }
 }
