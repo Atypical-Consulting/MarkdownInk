@@ -45,12 +45,15 @@ internal class ListRenderer : MarkdownObjectRenderer<SpectreRenderer, ListBlock>
                 }
                 else
                 {
-                    renderer.Console.WriteLine();
                     renderer.Write(child);
                 }
             }
         }
 
         renderer.IndentLevel--;
+
+        // Trailing blank line after top-level lists, matching other block elements
+        if (renderer.IndentLevel == 0)
+            renderer.Console.WriteLine();
     }
 }
