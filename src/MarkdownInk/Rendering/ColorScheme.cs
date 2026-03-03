@@ -1,4 +1,4 @@
-namespace mdink.Rendering;
+namespace MarkdownInk.Rendering;
 
 internal static class ColorScheme
 {

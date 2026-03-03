@@ -2,7 +2,7 @@ using Markdig.Renderers;
 using Markdig.Syntax;
 using Spectre.Console;
 
-namespace mdink.Rendering.Blocks;
+namespace MarkdownInk.Rendering.Blocks;
 
 internal class HeadingRenderer : MarkdownObjectRenderer<SpectreRenderer, HeadingBlock>
 {
@@ -25,14 +25,14 @@ internal class HeadingRenderer : MarkdownObjectRenderer<SpectreRenderer, Heading
             rule.RuleStyle(Style.Parse(ColorScheme.Rule));
             if (obj.Level == 2)
                 rule.Justification = Justify.Left;
-            AnsiConsole.Write(rule);
+            renderer.Console.Write(rule);
         }
         else
         {
             var prefix = new string('#', obj.Level) + " ";
-            AnsiConsole.MarkupLine($"[{color}]{Markup.Escape(prefix + text)}[/]");
+            renderer.Console.MarkupLine($"[{color}]{Markup.Escape(prefix + text)}[/]");
         }
 
-        AnsiConsole.WriteLine();
+        renderer.Console.WriteLine();
     }
 }

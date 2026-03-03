@@ -2,7 +2,7 @@ using Markdig.Renderers;
 using Markdig.Syntax;
 using Spectre.Console;
 
-namespace mdink.Rendering.Blocks;
+namespace MarkdownInk.Rendering.Blocks;
 
 internal class ListRenderer : MarkdownObjectRenderer<SpectreRenderer, ListBlock>
 {
@@ -32,7 +32,7 @@ internal class ListRenderer : MarkdownObjectRenderer<SpectreRenderer, ListBlock>
                 bullet = $"[{ColorScheme.BlockquoteBorder}]{bulletChar}[/] ";
             }
 
-            AnsiConsole.Markup($"{indent}{bullet}");
+            renderer.Console.Markup($"{indent}{bullet}");
 
             foreach (var child in listItem)
             {
@@ -41,11 +41,11 @@ internal class ListRenderer : MarkdownObjectRenderer<SpectreRenderer, ListBlock>
                     renderer.WriteChildren(para.Inline!);
                     var text = renderer.DrainInlineBuffer();
                     if (!string.IsNullOrWhiteSpace(text))
-                        AnsiConsole.Markup($"{text}\n");
+                        renderer.Console.Markup($"{text}\n");
                 }
                 else
                 {
-                    AnsiConsole.WriteLine();
+                    renderer.Console.WriteLine();
                     renderer.Write(child);
                 }
             }

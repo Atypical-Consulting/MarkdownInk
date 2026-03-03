@@ -2,7 +2,7 @@ using Markdig.Renderers;
 using Markdig.Syntax;
 using Spectre.Console;
 
-namespace mdink.Rendering.Blocks;
+namespace MarkdownInk.Rendering.Blocks;
 
 internal class ParagraphRenderer : MarkdownObjectRenderer<SpectreRenderer, ParagraphBlock>
 {
@@ -10,6 +10,6 @@ internal class ParagraphRenderer : MarkdownObjectRenderer<SpectreRenderer, Parag
     {
         renderer.WriteChildren(obj.Inline!);
         renderer.FlushInline();
-        AnsiConsole.WriteLine();
+        renderer.Console.WriteLine();
     }
 }
