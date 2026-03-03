@@ -5,7 +5,7 @@ echo.
 cd /d "%~dp0"
 
 echo [1/4] Restoring packages...
-dotnet restore
+dotnet restore mdink.slnx
 if %ERRORLEVEL% neq 0 (
     echo ERROR: restore failed
     exit /b 1
@@ -13,7 +13,7 @@ if %ERRORLEVEL% neq 0 (
 echo.
 
 echo [2/4] Building...
-dotnet build --configuration Release --no-restore
+dotnet build mdink.slnx --configuration Release --no-restore
 if %ERRORLEVEL% neq 0 (
     echo ERROR: build failed
     exit /b 1
@@ -22,7 +22,7 @@ echo.
 
 echo [3/4] Packing as global tool...
 if exist nupkg rmdir /s /q nupkg
-dotnet pack --configuration Release --no-build --output ./nupkg
+dotnet pack src\mdink\mdink.csproj --configuration Release --no-build --output nupkg
 if %ERRORLEVEL% neq 0 (
     echo ERROR: pack failed
     exit /b 1
