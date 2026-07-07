@@ -46,4 +46,16 @@ jobs:
       # The test projects use the Microsoft Testing Platform (xunit.v3 with
       # TestingPlatformDotnetTestSupport), so `dotnet test` drives them directly.
       - name: Test
-        run: dotnet test MarkdownInk.slnx --no-build -c Release
+        run: |
+          set +e
+          dotnet test MarkdownInk.slnx --no-build -c Release
+          code=$?
+          if [ $code -ne 0 ]; then
+            echo "::group::decoded MTP logs (ESC shown as ^[)"
+            find . -path '*TestResults*' -name '*MarkdownInk.Mcp*.log' | while read -r f; do
+              echo "----- $f -----"
+              iconv -f UTF-16 -t UTF-8 "$f" 2>/dev/null | cat -v || cat -v "$f"
+            done
+            echo "::endgroup::"
+          fi
+          exit $code
