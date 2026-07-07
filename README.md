@@ -2,75 +2,76 @@
 
 <!-- mcp-name: io.github.Atypical-Consulting/markdownink-mcp -->
 
-A .NET CLI tool that renders Markdown beautifully in the terminal.
+**Markdown, rendered beautifully in your terminal** — as the `mdink` CLI, or as an MCP server so AI
+agents can render it for you.
 
-## Installation
+[![CI](https://github.com/Atypical-Consulting/MarkdownInk/actions/workflows/ci.yml/badge.svg)](https://github.com/Atypical-Consulting/MarkdownInk/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)
 
-Requires [.NET 10 SDK](https://dotnet.microsoft.com/download).
+🌐 **[atypical-consulting.github.io/MarkdownInk](https://atypical-consulting.github.io/MarkdownInk/)**
+
+![MarkdownInk — Markdown, rendered beautifully in your terminal](https://atypical-consulting.github.io/MarkdownInk/og.png)
+
+## The problem
+
+Markdown is written to be *rendered* — but your terminal shows it raw. `cat README.md` and you get a
+wall of `#`, `**`, backticks, and `| pipe | tables |`. Fenced code blocks have no syntax
+highlighting. Links are naked URLs. The one place developers live all day is the one place Markdown
+looks worst.
+
+It's worse with AI coding agents: when an agent prints Markdown to your terminal, you read the
+*source*, not the document.
+
+## The solution
+
+MarkdownInk parses Markdown with [Markdig](https://github.com/xoofx/markdig) and paints it with
+[Spectre.Console](https://spectreconsole.net/) + [TextMateSharp](https://github.com/danipen/TextMateSharp):
+colored headings, syntax-highlighted code (30+ languages, VS Code's Dark+ theme), bordered tables,
+task lists, nested block quotes, footnotes, and clickable links.
+
+One rendering engine, two ways to use it:
+
+- **`mdink` CLI** — render a file or stdin straight to your terminal.
+- **`MarkdownInk.Mcp` server** — the same engine over [MCP](https://modelcontextprotocol.io), so any
+  AI agent can show Markdown as rich terminal output instead of raw source.
+
+## Quick start (CLI)
+
+Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
 ```bash
-# Build and install as a global tool
+# Build and install the mdink global tool from source
 dotnet pack src/MarkdownInk -o nupkg
 dotnet tool install -g --add-source nupkg MarkdownInk
 ```
-
-Or use the setup script:
-
-```bash
-./setup.cmd
-```
-
-## Usage
 
 ```bash
 # Render a file
 mdink README.md
 
-# Pipe from stdin
+# …or pipe from stdin
 cat notes.md | mdink
 ```
 
-## Features
+## Use it with an AI agent (MCP)
 
-- **Headings** — H1/H2 as full-width rules, H3–H6 as colored text
-- **Code blocks** — Syntax highlighting (30+ languages) via TextMateSharp with VS Code's Dark+ theme, displayed in rounded panels with language labels
-- **Inline formatting** — Bold, italic, strikethrough, inline code
-- **Links** — Clickable hyperlinks (OSC 8) in supported terminals
-- **Tables** — Rendered with rounded borders and column alignment
-- **Lists** — Ordered, unordered, nested, and task lists with checkboxes
-- **Blockquotes** — Nested with colored vertical bars
-- **Footnotes** — Numbered references with a dedicated section
-- **Thematic breaks** — Horizontal rules
+`MarkdownInk.Mcp` is a stdio [Model Context Protocol](https://modelcontextprotocol.io) server. Point
+any MCP client at it and the agent gains two read-only tools:
 
-## Supported Languages
-
-Syntax highlighting works for: C#, JavaScript, TypeScript, Python, JSON, XML, HTML, CSS, YAML, Bash, SQL, Rust, Go, Java, Ruby, C/C++, PHP, Swift, Kotlin, F#, PowerShell, Markdown, Dockerfile, Makefile, and more.
-
-## MCP Server
-
-The same rendering engine is available as an [MCP](https://modelcontextprotocol.io) (Model Context
-Protocol) server, `MarkdownInk.Mcp`, so AI agents and MCP clients can render Markdown to
-terminal-ready output on demand. It communicates over **stdio**.
-
-### Tools
-
-| Tool | Description |
+| Tool | What it does |
 | --- | --- |
-| `render_markdown` | Render a Markdown string to terminal-ready output. |
-| `render_markdown_file` | Read a Markdown file from disk and render it. |
+| `render_markdown` | Render a Markdown **string** to terminal-ready output. |
+| `render_markdown_file` | Read a Markdown **file** from disk and render it. |
 
-Both accept `ansi` (default `true` — include ANSI color/style escape codes; set `false` for plain
-text with the same layout) and `width` (default `100` columns). Responses use a uniform
-`{ "ok": true, "data": { "output", "ansi", "width", "lineCount", "path?" } }` envelope; failures
-report `ok: false` with a typed `error`.
+Both take `ansi` (default `true` — include ANSI color/style codes; `false` for plain text with the
+same layout) and `width` (default `100` columns). Every call returns a uniform envelope —
+`{ "ok": true, "data": { "output", "ansi", "width", "lineCount", "path"? } }` — or `ok: false` with
+a typed `error`. Neither tool writes to disk.
 
-### Running it
-
-Requires the .NET 10 SDK. The server is packaged as an `McpServer` dotnet tool, launched on demand
-via `dnx`:
+Add it to your client config (launched on demand via `dnx`, the .NET tool runner):
 
 ```jsonc
-// e.g. in an MCP client's server config
 {
   "mcpServers": {
     "markdownink": {
@@ -81,24 +82,40 @@ via `dnx`:
 }
 ```
 
-To run from source during development:
+## Install
 
-```bash
-dotnet run --project src/MarkdownInk.Mcp
-```
+| Method | How |
+| --- | --- |
+| **mdink CLI** | `dotnet pack src/MarkdownInk -o nupkg && dotnet tool install -g --add-source nupkg MarkdownInk` |
+| **MCP · dnx** | Add the `mcpServers` config above (needs the .NET 10 SDK). |
+| **MCP · Docker** | `docker build -t markdownink-mcp .` then `docker run -i --rm markdownink-mcp` |
+| **From source** | `dotnet run --project src/MarkdownInk -- README.md` (CLI) · `dotnet run --project src/MarkdownInk.Mcp` (MCP server) |
 
-A container image is also available (`Dockerfile` at the repo root; `ENTRYPOINT` speaks stdio):
+## Features
 
-```bash
-docker build -t markdownink-mcp .
-```
+- **Headings** — H1/H2 as full-width rules, H3–H6 as colored text
+- **Code blocks** — syntax highlighting (30+ languages) via TextMateSharp with VS Code's Dark+ theme, in rounded panels with language labels
+- **Inline formatting** — bold, italic, strikethrough, inline code
+- **Links** — clickable hyperlinks (OSC 8) in supported terminals
+- **Tables** — rounded borders and column alignment
+- **Lists** — ordered, unordered, nested, and task lists with checkboxes
+- **Blockquotes** — nested, with colored vertical bars
+- **Footnotes** — numbered references with a dedicated section
+- **Thematic breaks** — clean horizontal rules
 
-## Built With
+## Supported languages
 
-- [Markdig](https://github.com/xoofx/markdig) — Markdown parser
-- [Spectre.Console](https://spectreconsole.net/) — Terminal rendering
-- [TextMateSharp](https://github.com/nickvdyck/textmatesharp) — Syntax highlighting
+Syntax highlighting works for C#, JavaScript, TypeScript, Python, JSON, XML, HTML, CSS, YAML, Bash,
+SQL, Rust, Go, Java, Ruby, C/C++, PHP, Swift, Kotlin, F#, PowerShell, Markdown, Dockerfile,
+Makefile, and more.
+
+## Built with
+
+- [Markdig](https://github.com/xoofx/markdig) — Markdown parsing
+- [Spectre.Console](https://spectreconsole.net/) — terminal rendering
+- [TextMateSharp](https://github.com/danipen/TextMateSharp) — syntax highlighting
+- [ModelContextProtocol](https://github.com/modelcontextprotocol/csharp-sdk) — the MCP server SDK
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
