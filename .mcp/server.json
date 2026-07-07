@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.phmatray/markdownink-mcp",
+  "version": "1.0.0",
+  "description": "MCP server that renders Markdown beautifully to terminal-ready ANSI — syntax-highlighted code, tables, lists, and footnotes — via the MarkdownInk engine.",
+  "title": "MarkdownInk.Mcp",
+  "packages": [
+    {
+      "registryType": "nuget",
+      "identifier": "MarkdownInk.Mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/phmatray/BeautifulMarkdown",
+    "source": "github"
+  }
+}

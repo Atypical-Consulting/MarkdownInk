@@ -44,6 +44,53 @@ cat notes.md | mdink
 
 Syntax highlighting works for: C#, JavaScript, TypeScript, Python, JSON, XML, HTML, CSS, YAML, Bash, SQL, Rust, Go, Java, Ruby, C/C++, PHP, Swift, Kotlin, F#, PowerShell, Markdown, Dockerfile, Makefile, and more.
 
+## MCP Server
+
+The same rendering engine is available as an [MCP](https://modelcontextprotocol.io) (Model Context
+Protocol) server, `MarkdownInk.Mcp`, so AI agents and MCP clients can render Markdown to
+terminal-ready output on demand. It communicates over **stdio**.
+
+### Tools
+
+| Tool | Description |
+| --- | --- |
+| `render_markdown` | Render a Markdown string to terminal-ready output. |
+| `render_markdown_file` | Read a Markdown file from disk and render it. |
+
+Both accept `ansi` (default `true` — include ANSI color/style escape codes; set `false` for plain
+text with the same layout) and `width` (default `100` columns). Responses use a uniform
+`{ "ok": true, "data": { "output", "ansi", "width", "lineCount", "path?" } }` envelope; failures
+report `ok: false` with a typed `error`.
+
+### Running it
+
+Requires the .NET 10 SDK. The server is packaged as an `McpServer` dotnet tool, launched on demand
+via `dnx`:
+
+```jsonc
+// e.g. in an MCP client's server config
+{
+  "mcpServers": {
+    "markdownink": {
+      "command": "dnx",
+      "args": ["MarkdownInk.Mcp", "--yes"]
+    }
+  }
+}
+```
+
+To run from source during development:
+
+```bash
+dotnet run --project src/MarkdownInk.Mcp
+```
+
+A container image is also available (`Dockerfile` at the repo root; `ENTRYPOINT` speaks stdio):
+
+```bash
+docker build -t markdownink-mcp .
+```
+
 ## Built With
 
 - [Markdig](https://github.com/xoofx/markdig) — Markdown parser
