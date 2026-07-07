@@ -249,8 +249,8 @@ docker run -i --rm markdownink-mcp</code></pre>
             <button class="copy" data-copy-target="#inst-src pre"><span class="copy-label">Copy</span></button>
             <pre><code>git clone https://github.com/Atypical-Consulting/MarkdownInk
 cd MarkdownInk
-dotnet run --project src/MarkdownInk src/MarkdownInk/../../README.md   # CLI
-dotnet run --project src/MarkdownInk.Mcp                                # MCP server</code></pre>
+dotnet run --project src/MarkdownInk -- README.md   # CLI: render a file
+dotnet run --project src/MarkdownInk.Mcp             # MCP server (stdio)</code></pre>
           </div>
         </div>
       </div>

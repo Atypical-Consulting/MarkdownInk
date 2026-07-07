@@ -1,5 +1,7 @@
 # MarkdownInk (mdink)
 
+<!-- mcp-name: io.github.Atypical-Consulting/markdownink-mcp -->
+
 A .NET CLI tool that renders Markdown beautifully in the terminal.
 
 ## Installation
