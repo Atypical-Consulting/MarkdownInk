@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Markdig;
 using MarkdownInk.Rendering;
 using Spectre.Console;
@@ -10,7 +11,7 @@ namespace MarkdownInk.Mcp.Services;
 /// by a <see cref="StringWriter"/>) so the rendered result is returned as a string rather than
 /// written to the process's terminal.
 /// </summary>
-public sealed class MarkdownRenderService : IMarkdownRenderService
+public sealed partial class MarkdownRenderService : IMarkdownRenderService
 {
     // The pipeline is immutable and safe to share across calls; it mirrors MarkdownInk's CLI
     // (Program.cs) and its test helper.
@@ -18,6 +19,12 @@ public sealed class MarkdownRenderService : IMarkdownRenderService
         new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
             .Build();
+
+    // Matches CSI sequences (SGR colors/decorations, cursor moves) and OSC sequences (e.g. OSC-8
+    // hyperlinks, BEL- or ST-terminated) — every escape MarkdownInk can emit. Used to guarantee the
+    // ansi:false contract.
+    [GeneratedRegex(@"\x1B\[[0-9;?]*[ -/]*[@-~]|\x1B\][^\x07\x1B]*(?:\x07|\x1B\\)")]
+    private static partial Regex AnsiEscape();
 
     /// <inheritdoc />
     public string Render(string markdown, bool ansi, int width)
@@ -50,6 +57,12 @@ public sealed class MarkdownRenderService : IMarkdownRenderService
         var document = Markdown.Parse(markdown, _pipeline);
         new SpectreRenderer(console).Render(document);
 
-        return writer.ToString();
+        var output = writer.ToString();
+
+        // Guarantee the plain-text contract. Spectre's Ansi=No proved environment-dependent — on
+        // some hosts (CI runners) it still emits SGR decoration escapes (e.g. bold) even with
+        // NoColors — so strip any residual escape sequences ourselves. No-op where Spectre already
+        // produced plain text; preserves layout (Unicode box-drawing, spacing) and removes only escapes.
+        return ansi ? output : AnsiEscape().Replace(output, string.Empty);
     }
 }
