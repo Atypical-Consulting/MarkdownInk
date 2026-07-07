@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<!-- Source template for og.png. Open in Chrome, screenshot the .card at 1200×630. Not part of the build. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Hanken+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body { background: #2a2620; display: flex; align-items: center; justify-content: center; }
+  .card {
+    width: 1200px; height: 630px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(1100px 520px at 82% -10%, rgba(240,178,62,.16), transparent 60%),
+      linear-gradient(160deg, #141210 0%, #100d09 100%);
+    color: #f3efe6; font-family: 'Hanken Grotesk', sans-serif;
+    padding: 74px 80px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .top { display: flex; align-items: center; gap: 16px; }
+  .mark { width: 46px; height: 46px; }
+  .brand { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.02em; }
+  .tag { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 17px; letter-spacing: .16em;
+    text-transform: uppercase; color: #a79c88; }
+  h1 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 76px; line-height: 1.04;
+    letter-spacing: -0.03em; max-width: 20ch; }
+  h1 .hl { color: #f0b23e; }
+  .sub { margin-top: 22px; font-size: 27px; line-height: 1.4; color: #c3bba9; max-width: 40ch; }
+  .foot { display: flex; align-items: center; gap: 14px; }
+  .chip { font-family: 'JetBrains Mono', monospace; font-size: 19px; color: #f0b23e;
+    border: 1px solid rgba(240,178,62,.4); background: rgba(240,178,62,.10); border-radius: 999px; padding: 7px 18px; }
+  .chip.green { color: #78d197; border-color: rgba(120,209,151,.4); background: rgba(120,209,151,.10); }
+  .url { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #8a8072; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="top">
+      <svg class="mark" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1c1813"/><path d="M16 5c4 7 7 10 7 14a7 7 0 1 1-14 0c0-4 3-7 7-14Z" fill="#f0b23e"/></svg>
+      <span class="brand">MarkdownInk</span>
+      <span class="tag">CLI · MCP</span>
+    </div>
+    <div>
+      <h1>Markdown, rendered <span class="hl">beautifully</span> in your terminal.</h1>
+      <p class="sub">Syntax-highlighted code, tables, lists, footnotes — as the <b style="color:#e7dfce">mdink</b> CLI, or over MCP for AI agents.</p>
+    </div>
+    <div class="foot">
+      <span class="chip">mdink</span>
+      <span class="chip green">render_markdown</span>
+      <span class="url">github.com/Atypical-Consulting/MarkdownInk</span>
+    </div>
+  </div>
+</body>
+</html>

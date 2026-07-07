@@ -1,0 +1,413 @@
+---
+import Base from '../layouts/Base.astro';
+import { tools } from '../data/tools.ts';
+import { features } from '../data/features.ts';
+import { languages } from '../data/languages.ts';
+
+const base = import.meta.env.BASE_URL;
+
+const dnx = `{
+  "mcpServers": {
+    "markdownink": {
+      "command": "dnx",
+      "args": ["MarkdownInk.Mcp", "--yes"]
+    }
+  }
+}`;
+---
+<Base title="MarkdownInk — Markdown, beautifully rendered in your terminal" active="home">
+  <!-- ─────────────── HERO ─────────────── -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Terminal Markdown renderer · CLI + MCP</span>
+        <h1>Markdown, rendered<br /><span class="hl">beautifully</span> in your terminal.</h1>
+        <p class="lede">
+          MarkdownInk turns Markdown into rich, syntax-highlighted terminal output — headings, code,
+          tables, task lists, footnotes. Use it as the <code>mdink</code> CLI, or plug the{' '}
+          <strong>same engine</strong> into any AI agent over MCP.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#install">Install mdink</a>
+          <a class="btn ghost" href={base + 'tools'}>MCP tools →</a>
+        </div>
+      </div>
+
+      <aside class="hero-side">
+        <div class="termcard" aria-hidden="true">
+          <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="term-title mono">mdink&nbsp;sample.md</span></div>
+          <div class="term-body mono">
+            <div class="t-rule"><span class="t-dash">────</span> <span class="t-h1">Welcome to mdink</span> <span class="t-dash">──────────</span></div>
+            <div class="t-line">A <span class="t-bold">terminal markdown</span> renderer with <span class="t-icode">syntax</span> highlighting.</div>
+            <div class="t-spacer"></div>
+            <div class="t-line"><span class="t-bullet">●</span> Tables, lists &amp; footnotes</div>
+            <div class="t-line"><span class="t-check">✔</span> <span class="t-dim">Task lists with checkboxes</span></div>
+            <div class="t-quote"><span class="t-qbar">▍</span> Beautiful output, every time.</div>
+          </div>
+        </div>
+        <p class="hero-side-note mono">one binary · reads a file or stdin</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ─────────────── SHOWCASE: plain → beautiful ─────────────── -->
+  <section class="showcase">
+    <div class="wrap">
+      <div class="showcase-head">
+        <span class="eyebrow">The idea</span>
+        <p>Your terminal prints Markdown as flat, gray text. <code>mdink</code> parses it with Markdig and
+          paints it with Spectre.Console — <strong>the same bytes, finally readable</strong>.</p>
+      </div>
+
+      <figure class="transform" aria-label="MarkdownInk turns raw Markdown source into rich terminal output.">
+        <div class="tpanel raw">
+          <div class="tp-head"><span class="mono">notes.md · the source</span></div>
+          <pre class="mono">{`# Welcome to mdink
+
+This is a **terminal markdown
+renderer** built with .NET 10.
+
+## Features
+
+- Syntax highlighting
+- [x] Tables & task lists
+- [ ] More themes
+
+> Beautiful output, every time.
+
+\`\`\`csharp
+var doc = Markdown.Parse(text);
+renderer.Render(doc);
+\`\`\``}</pre>
+        </div>
+
+        <div class="inkline" aria-hidden="true">
+          <span class="il-node mono">mdink</span>
+          <span class="il-arrow mono">→</span>
+        </div>
+
+        <div class="tpanel rendered">
+          <div class="tp-head"><span class="mono">the terminal output</span></div>
+          <div class="term-body mono">
+            <div class="t-rule"><span class="t-dash">───</span> <span class="t-h1">Welcome to mdink</span> <span class="t-dash">────────</span></div>
+            <div class="t-line">This is a <span class="t-bold">terminal markdown renderer</span> built with .NET&nbsp;10.</div>
+            <div class="t-spacer"></div>
+            <div class="t-h2">Features</div>
+            <div class="t-line"><span class="t-bullet">●</span> Syntax highlighting</div>
+            <div class="t-line"><span class="t-check">✔</span> Tables &amp; task lists</div>
+            <div class="t-line"><span class="t-uncheck">☐</span> <span class="t-dim">More themes</span></div>
+            <div class="t-spacer"></div>
+            <div class="t-quote"><span class="t-qbar">▍</span> Beautiful output, every time.</div>
+            <div class="t-spacer"></div>
+            <div class="t-code">
+              <div class="tc-bar mono"><span>csharp</span></div>
+              <div class="tc-body mono"><div><span class="tok-key">var</span> doc = <span class="tok-fn">Markdown</span>.<span class="tok-fn">Parse</span>(text);</div><div>renderer.<span class="tok-fn">Render</span>(doc);</div></div>
+            </div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ─────────────── FEATURES ─────────────── -->
+  <section class="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">The surface</span>
+        <h2>Everything Markdown, in the terminal.</h2>
+        <p>Full CommonMark plus the popular extensions, each rendered the way you'd expect it to look —
+          nothing left as literal syntax.</p>
+      </div>
+      <div class="fgrid">
+        {features.map((f) => (
+          <div class="fcard">
+            <span class="fglyph mono" aria-hidden="true">{f.glyph}</span>
+            <h3>{f.title}</h3>
+            <p>{f.blurb}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── SYNTAX HIGHLIGHTING ─────────────── -->
+  <section class="highlight">
+    <div class="wrap">
+      <div class="hl-grid">
+        <div class="hl-copy">
+          <span class="eyebrow">Syntax highlighting</span>
+          <h2>30+ languages, VS&nbsp;Code's Dark+ theme.</h2>
+          <p>Fenced code blocks are tokenized with real TextMate grammars via{' '}
+            <a href="https://github.com/danipen/TextMateSharp">TextMateSharp</a> and painted with the
+            Dark+ theme — the same colors you see in your editor, now in your terminal.</p>
+          <div class="langwrap">
+            {languages.map((l) => <span class="lang mono">{l}</span>)}
+            <span class="lang mono more">&amp; more</span>
+          </div>
+        </div>
+        <div class="hl-demo codeblock">
+          <div class="cb-head"><span>example.cs · csharp</span></div>
+          <pre><code><span class="tok-cmt">// Rendered exactly like your editor</span>
+<span class="tok-key">public static</span> <span class="tok-key">class</span> <span class="tok-fn">Greeter</span> &#123;
+  <span class="tok-key">public static</span> <span class="tok-fn">string</span> <span class="tok-fn">Hello</span>(<span class="tok-fn">string</span> name) =&gt;
+      <span class="tok-str">$"Hello, &#123;name&#125;!"</span>;
+&#125;</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── TWO SURFACES ─────────────── -->
+  <section class="surfaces">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">One engine, two ways to use it</span>
+        <h2>A CLI for you. An MCP server for your agent.</h2>
+        <p>The exact same renderer — pick the surface that fits.</p>
+      </div>
+      <div class="sgrid">
+        <div class="scard">
+          <div class="sc-top"><span class="pill read">CLI</span><code>mdink</code></div>
+          <p>Render a file or pipe from stdin, straight to your terminal.</p>
+          <div class="codeblock" id="cli-demo">
+            <div class="cb-head"><span>shell</span></div>
+            <button class="copy" data-copy-target="#cli-demo pre"><span class="copy-label">Copy</span></button>
+            <pre><code>mdink README.md
+cat notes.md | mdink</code></pre>
+          </div>
+        </div>
+        <div class="scard">
+          <div class="sc-top"><span class="pill read">MCP</span><code>MarkdownInk.Mcp</code></div>
+          <p>Two read-only tools — <code>render_markdown</code> and <code>render_markdown_file</code> —
+            so an agent can show Markdown as rich terminal output instead of raw source.</p>
+          <div class="codeblock" id="mcp-demo">
+            <div class="cb-head"><span>mcp.json</span></div>
+            <button class="copy" data-copy-target="#mcp-demo pre"><span class="copy-label">Copy</span></button>
+            <pre><code>{dnx}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── INSTALL ─────────────── -->
+  <section id="install" class="install">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Install</span>
+        <h2>Requires the .NET&nbsp;10 SDK.</h2>
+        <p>Pick how you want it on disk — the CLI and the MCP server share one codebase.</p>
+      </div>
+
+      <div class="itabs" data-install-tabs>
+        <div class="itablist" role="tablist" aria-label="Install method">
+          <button class="itab" role="tab" id="tab-cli" aria-controls="p-cli" aria-selected="true">mdink CLI</button>
+          <button class="itab" role="tab" id="tab-dnx" aria-controls="p-dnx" aria-selected="false">MCP · dnx <span class="tab-tag">recommended</span></button>
+          <button class="itab" role="tab" id="tab-docker" aria-controls="p-docker" aria-selected="false">MCP · Docker</button>
+          <button class="itab" role="tab" id="tab-src" aria-controls="p-src" aria-selected="false">From source</button>
+        </div>
+
+        <div class="ipanel" id="p-cli" role="tabpanel" aria-labelledby="tab-cli">
+          <p>Install the <code>mdink</code> command globally as a .NET tool. Build the package from source,
+            then install it:</p>
+          <div class="codeblock" id="inst-cli">
+            <div class="cb-head"><span>shell</span></div>
+            <button class="copy" data-copy-target="#inst-cli pre"><span class="copy-label">Copy</span></button>
+            <pre><code>dotnet pack src/MarkdownInk -o nupkg
+dotnet tool install -g --add-source nupkg MarkdownInk</code></pre>
+          </div>
+          <p class="muted small">Then run <code>mdink &lt;file.md&gt;</code> or <code>cat notes.md | mdink</code>.</p>
+        </div>
+
+        <div class="ipanel" id="p-dnx" role="tabpanel" aria-labelledby="tab-dnx" hidden>
+          <p>Any MCP client that speaks <code>dnx</code> (the .NET <code>npx</code>) runs the server on
+            demand — no install step. Add to your client config:</p>
+          <div class="codeblock" id="inst-dnx">
+            <div class="cb-head"><span>mcp.json / claude_desktop_config.json</span></div>
+            <button class="copy" data-copy-target="#inst-dnx pre"><span class="copy-label">Copy</span></button>
+            <pre><code>{dnx}</code></pre>
+          </div>
+          <p class="muted small"><code>dnx</code> fetches and caches the <code>MarkdownInk.Mcp</code> package on first use.</p>
+        </div>
+
+        <div class="ipanel" id="p-docker" role="tabpanel" aria-labelledby="tab-docker" hidden>
+          <p>Build the image from the repo's <code>Dockerfile</code> and run it — the server speaks stdio.</p>
+          <div class="codeblock" id="inst-docker">
+            <div class="cb-head"><span>shell</span></div>
+            <button class="copy" data-copy-target="#inst-docker pre"><span class="copy-label">Copy</span></button>
+            <pre><code>docker build -t markdownink-mcp .
+docker run -i --rm markdownink-mcp</code></pre>
+          </div>
+          <p class="muted small">The <code>-i</code> flag is required for stdio transport.</p>
+        </div>
+
+        <div class="ipanel" id="p-src" role="tabpanel" aria-labelledby="tab-src" hidden>
+          <p>Clone and run either surface straight from the checkout:</p>
+          <div class="codeblock" id="inst-src">
+            <div class="cb-head"><span>shell</span></div>
+            <button class="copy" data-copy-target="#inst-src pre"><span class="copy-label">Copy</span></button>
+            <pre><code>git clone https://github.com/Atypical-Consulting/MarkdownInk
+cd MarkdownInk
+dotnet run --project src/MarkdownInk src/MarkdownInk/../../README.md   # CLI
+dotnet run --project src/MarkdownInk.Mcp                                # MCP server</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── MCP TOOLS ─────────────── -->
+  <section class="tools">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">MCP surface</span>
+        <h2>Two tools. Read-only. Zero surprises.</h2>
+        <p>Both return a uniform <code>ToolResult</code> envelope and never write to disk.{' '}
+          <a href={base + 'tools'}>Full reference →</a></p>
+      </div>
+      <div class="tgrid">
+        {tools.map((t) => (
+          <div class="tcard">
+            <div class="tc-top"><code>{t.name}</code><span class="pill read">read</span></div>
+            <p>{t.summary}</p>
+            <div class="tc-params mono">{t.params}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── BUILT WITH ─────────────── -->
+  <section class="builtwith">
+    <div class="wrap bw-row">
+      <span class="eyebrow">Built with</span>
+      <div class="bw-list">
+        <a href="https://github.com/xoofx/markdig">Markdig</a>
+        <span>·</span>
+        <a href="https://spectreconsole.net/">Spectre.Console</a>
+        <span>·</span>
+        <a href="https://github.com/danipen/TextMateSharp">TextMateSharp</a>
+        <span>·</span>
+        <a href="https://modelcontextprotocol.io">Model Context Protocol</a>
+        <span class="bw-net mono">.NET 10</span>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* HERO */
+    .hero { padding-top: 3.4rem; padding-bottom: 3.4rem; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 3rem; align-items: center; }
+    .hero-copy h1 { margin: 1.1rem 0 1.2rem; }
+    .hero-copy h1 .hl { color: var(--gold); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.7rem; }
+    .hero-side { align-self: center; }
+    .hero-side-note { margin: .7rem .2rem 0; font-size: .72rem; color: var(--muted); text-align: right; }
+
+    /* TERMINAL MOCKUP (always dark) */
+    .termcard { background: #100d09; border: 1px solid #2a251d; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+    .term-bar { display: flex; align-items: center; gap: .4rem; padding: .55rem .8rem; border-bottom: 1px solid #221d16; }
+    .term-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: #3a332a; }
+    .term-bar .dot:nth-child(1) { background: #d1603f; } .term-bar .dot:nth-child(2) { background: #d9a441; } .term-bar .dot:nth-child(3) { background: #5fa563; }
+    .term-title { margin-left: .5rem; font-size: .72rem; color: #6d6555; }
+    .term-body { padding: 1rem 1.1rem; font-size: .82rem; line-height: 1.75; color: #d7cfc0; }
+    .t-line, .t-quote, .t-h2, .t-rule { white-space: pre-wrap; }
+    .t-spacer { height: .5rem; }
+    .t-dash { color: #5c5646; } .t-h1 { color: #4fd6e0; font-weight: 600; } .t-h2 { color: #38b6ff; font-weight: 600; margin: .1rem 0; }
+    .t-bold { color: #fbf6ea; font-weight: 600; }
+    .t-icode { color: #f0c453; background: #2a251d; border-radius: 4px; padding: 0 .3em; }
+    .t-dim { color: #857c6c; } .t-bullet { color: #4f8fdb; } .t-check { color: #5fbf82; } .t-uncheck { color: #6d6555; }
+    .t-qbar { color: #4f8fdb; } .t-quote { color: #b7ae9d; }
+    .t-code { margin-top: .3rem; border: 1px solid #221d16; border-radius: 8px; overflow: hidden; }
+    .t-code .tc-bar { padding: .28rem .7rem; font-size: .68rem; color: #6d6555; border-bottom: 1px solid #221d16; }
+    .t-code .tc-body { padding: .5rem .7rem; font-size: .78rem; line-height: 1.6; color: #9ecb6b; }
+
+    /* SHOWCASE / TRANSFORM */
+    .showcase { background: var(--surface); }
+    .showcase-head { margin-bottom: 1.6rem; }
+    .showcase-head p { font-size: 1.08rem; margin: .55rem 0 0; max-width: 66ch; color: var(--ink-2); }
+    .transform { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) 110px minmax(0, 1fr); align-items: stretch; }
+    .tpanel { border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow); }
+    .tpanel.raw { background: var(--inset); border: 1px solid var(--line); }
+    .tpanel.rendered { background: #100d09; border: 1px solid #2a251d; }
+    .tp-head { display: flex; align-items: center; gap: .5rem; padding: .6rem .9rem; font-size: .72rem; letter-spacing: .03em; flex: none; }
+    .tpanel.raw .tp-head { color: var(--muted); border-bottom: 1px solid var(--line); }
+    .tpanel.rendered .tp-head { color: #6d6555; border-bottom: 1px solid #221d16; }
+    .tpanel.raw pre { flex: 1; margin: 0; padding: .85rem 1rem; font-size: .76rem; line-height: 1.7; color: var(--ink-2); overflow-x: auto; white-space: pre; }
+    .tpanel.rendered .term-body { padding: .85rem 1rem; font-size: .78rem; line-height: 1.7; }
+
+    .inkline { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; }
+    .inkline::before { content: ""; position: absolute; top: 12%; bottom: 12%; left: 50%; width: 2px; transform: translateX(-50%); background: var(--gold); opacity: .45; }
+    .il-node { position: relative; z-index: 1; font-size: .74rem; color: #1a1712; background: var(--gold); border-radius: 999px; padding: .34rem .7rem; white-space: nowrap; box-shadow: 0 0 0 6px var(--gold-soft); font-weight: 600; }
+    .il-arrow { position: relative; z-index: 1; color: var(--gold); font-size: 1.1rem; line-height: 1; }
+
+    /* FEATURES */
+    .fgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: .9rem; }
+    .fcard { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.15rem 1.2rem; box-shadow: var(--shadow); transition: border-color .12s ease, transform .12s ease; }
+    .fcard:hover { border-color: color-mix(in srgb, var(--gold) 30%, var(--line)); transform: translateY(-2px); }
+    .fglyph { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; height: 2rem; padding: 0 .5rem; margin-bottom: .7rem; font-size: 1rem; color: var(--gold-ink); background: var(--gold-soft); border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line)); border-radius: 8px; }
+    .fcard h3 { margin: 0 0 .35rem; font-size: 1.02rem; }
+    .fcard p { margin: 0; font-size: .9rem; }
+
+    /* SYNTAX HIGHLIGHTING */
+    .highlight { background: var(--surface); }
+    .hl-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2.8rem; align-items: center; }
+    .hl-copy h2 { margin: .9rem 0 .7rem; }
+    .langwrap { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.3rem; }
+    .lang { font-size: .74rem; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line); border-radius: 7px; padding: .22rem .5rem; }
+    .lang.more { color: var(--muted); background: transparent; border-style: dashed; }
+    .hl-demo { box-shadow: var(--shadow); }
+    @media (max-width: 900px) { .hl-grid { grid-template-columns: 1fr; gap: 1.8rem; } }
+
+    /* TWO SURFACES */
+    .sgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .scard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 1.3rem; box-shadow: var(--shadow); }
+    .sc-top { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; }
+    .sc-top code { background: none; border: none; padding: 0; color: var(--ink); font-size: 1rem; font-weight: 500; }
+    .scard > p { font-size: .92rem; margin: 0 0 1rem; }
+    .scard .codeblock { max-width: 100%; }
+    @media (max-width: 820px) { .sgrid { grid-template-columns: 1fr; } }
+
+    /* INSTALL — tabs */
+    .itabs { max-width: 780px; }
+    .itablist { display: inline-flex; flex-wrap: wrap; gap: .25rem; padding: .3rem; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 1.2rem; }
+    .itab { font-family: var(--mono); font-size: .86rem; color: var(--ink-2); background: transparent; border: 1px solid transparent; border-radius: 9px; padding: .5rem .9rem; cursor: pointer; display: inline-flex; align-items: center; gap: .5rem; transition: color .12s ease; }
+    .itab:hover { color: var(--ink); }
+    .itab[aria-selected="true"] { background: var(--surface); color: var(--ink); border-color: var(--line); box-shadow: var(--shadow); }
+    .tab-tag { font-size: .6rem; text-transform: uppercase; letter-spacing: .04em; color: var(--gold-ink); background: var(--gold-soft); border-radius: 999px; padding: .1rem .42rem; }
+    .ipanel[hidden] { display: none; }
+    .ipanel p { font-size: .95rem; margin: 0 0 .8rem; max-width: 68ch; }
+    .ipanel .codeblock { max-width: 660px; }
+    .ipanel p.small { margin-top: .7rem; }
+
+    /* MCP TOOLS */
+    .tgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .tcard { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.15rem; box-shadow: var(--shadow); transition: border-color .12s ease, transform .12s ease; }
+    .tcard:hover { border-color: color-mix(in srgb, var(--gold) 28%, var(--line)); transform: translateY(-2px); }
+    .tc-top { display: flex; align-items: center; gap: .5rem; margin-bottom: .5rem; }
+    .tc-top code { background: none; border: none; padding: 0; color: var(--ink); font-size: .96rem; }
+    .tc-top .pill { margin-left: auto; }
+    .tcard p { margin: 0 0 .8rem; font-size: .9rem; }
+    .tc-params { font-size: .76rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: .6rem; }
+    @media (max-width: 720px) { .tgrid { grid-template-columns: 1fr; } }
+
+    /* BUILT WITH */
+    .builtwith { background: var(--surface); }
+    .bw-row { display: flex; align-items: center; gap: 1.4rem; flex-wrap: wrap; }
+    .bw-list { display: flex; align-items: center; gap: .7rem; flex-wrap: wrap; color: var(--muted); }
+    .bw-list a { color: var(--ink-2); font-weight: 500; }
+    .bw-net { margin-left: .3rem; font-size: .74rem; color: var(--gold-ink); background: var(--gold-soft); border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line)); border-radius: 999px; padding: .12rem .5rem; }
+
+    @media (max-width: 940px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-side-note { text-align: left; }
+    }
+    @media (max-width: 820px) {
+      .transform { grid-template-columns: 1fr; }
+      .inkline { flex-direction: row; height: 56px; }
+      .inkline::before { top: 50%; bottom: auto; left: 10%; right: 10%; width: auto; height: 2px; transform: translateY(-50%); }
+      .il-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</Base>

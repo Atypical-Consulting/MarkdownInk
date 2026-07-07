@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import { tools } from '../data/tools.ts';
+const base = import.meta.env.BASE_URL;
+---
+<Base title="MCP tool reference — MarkdownInk" active="tools"
+      description="The two MCP tools MarkdownInk.Mcp exposes: render_markdown and render_markdown_file — render Markdown to terminal-ready ANSI.">
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">Reference</span>
+      <h1 style="margin:1rem 0">Two tools</h1>
+      <p class="lede"><code>MarkdownInk.Mcp</code> is a stdio MCP server that renders Markdown to
+        terminal-ready output — the same engine as the <code>mdink</code> CLI. Both tools are{' '}
+        <strong>read-only</strong>; wire names are <code>snake_case</code>.</p>
+
+      <div class="note" style="margin:1.6rem 0">
+        <p style="margin:0"><strong>ANSI by default.</strong> Both tools return ANSI-colored output.
+          Pass <code>ansi: false</code> for the same layout as plain text with no color escape codes,
+          and <code>width</code> (default <code>100</code>) to control wrapping and table sizing.{' '}
+          <code>render_markdown_file</code> reads the file but never modifies it.</p>
+      </div>
+
+      <div class="envelope">
+        <div class="env-head"><h2>Response envelope</h2><span class="v-tag mono">ToolResult&lt;T&gt;</span></div>
+        <p>Every tool returns a uniform, typed envelope. The <strong>returns</strong> shown on each card
+          below is the shape of <code>data</code> — the payload — not the whole envelope.</p>
+        <div class="env-shapes">
+          <div class="env-row"><span class="pill read">ok</span><code class="mono">{`{ "ok": true, "data": { "output", "ansi", "width", "lineCount", "path"? } }`}</code></div>
+          <div class="env-row"><span class="pill write">err</span><code class="mono">{`{ "ok": false, "error": { "type", "message", "hint"?, "correlationId" } }`}</code></div>
+        </div>
+        <p class="muted" style="margin-bottom:0">Tools set <code>UseStructuredContent</code>, so{' '}
+          <code>data</code> is also delivered as MCP <code>structuredContent</code> alongside an advertised{' '}
+          <code>outputSchema</code>. Validation and not-found failures are reported in-band
+          (<code>ok: false</code>) with a stable <code>error.type</code>.</p>
+      </div>
+
+      <div class="rgroup">
+        <div class="rg-head"><h2>Rendering</h2><span class="rg-blurb">Markdown in, terminal-ready output out. Read-only.</span></div>
+        <div class="rgrid">
+          {tools.map((t) => (
+            <div class="rcard" id={t.name}>
+              <div class="rc-top">
+                <a class="rc-name mono" href={`#${t.name}`}>{t.name}</a>
+                <span class="pill read">read-only</span>
+              </div>
+              <div class="rc-title">{t.title}</div>
+              <p class="rc-sum">{t.summary}</p>
+              <dl class="rc-io">
+                <dt>params</dt><dd class="mono">{t.params}</dd>
+                <dt>returns</dt><dd class="mono">{t.returns}</dd>
+              </dl>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top:2.5rem">
+        <span class="eyebrow">Get started</span>
+        <h2>Add it to your client</h2>
+        <p>Point any MCP client at the server via <code>dnx</code> — see the{' '}
+          <a href={base + '#install'}>install options →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .envelope { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--sap);
+      border-radius: 12px; padding: 1.15rem 1.3rem; margin: 1.6rem 0 2.4rem; box-shadow: var(--shadow); }
+    .env-head { display: flex; align-items: baseline; gap: .7rem; margin-bottom: .5rem; }
+    .env-head h2 { margin: 0; font-size: 1.15rem; }
+    .v-tag { font-size: .68rem; color: var(--sap-ink); border: 1px solid color-mix(in srgb, var(--sap) 38%, var(--line));
+      background: var(--sap-soft); border-radius: 999px; padding: .1rem .45rem; }
+    .env-shapes { display: flex; flex-direction: column; gap: .5rem; margin: .9rem 0; }
+    .env-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+    .env-row code { background: var(--code-bg); color: var(--code-fg); border: 1px solid var(--code-line);
+      border-radius: 7px; padding: .3rem .6rem; font-size: .78rem; overflow-x: auto; }
+
+    .rgroup { margin: 2.2rem 0; }
+    .rg-head { display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap; margin-bottom: 1rem;
+      padding-bottom: .6rem; border-bottom: 1px solid var(--line); }
+    .rg-head h2 { margin: 0; font-size: 1.35rem; }
+    .rg-blurb { color: var(--muted); font-size: .88rem; }
+    .rgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+    .rcard { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.15rem; box-shadow: var(--shadow); transition: border-color .12s ease, transform .12s ease; }
+    .rcard:hover { border-color: color-mix(in srgb, var(--gold) 26%, var(--line)); transform: translateY(-2px); }
+    .rc-top { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-bottom: .3rem; }
+    .rc-name { background: none; border: none; padding: 0; color: var(--ink); font-size: 1rem; font-weight: 500; scroll-margin-top: 80px; }
+    .rc-name:hover { color: var(--gold-ink); text-decoration: none; }
+    .rcard:target { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
+    .rc-title { font-size: .8rem; color: var(--muted); margin-bottom: .5rem; }
+    .rc-sum { margin: 0 0 .8rem; font-size: .92rem; }
+    .rc-io { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .25rem .7rem; align-items: baseline; }
+    .rc-io dt { font-family: var(--mono); font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .rc-io dd { margin: 0; font-size: .78rem; color: var(--ink-2); line-height: 1.5; }
+  </style>
+</Base>
