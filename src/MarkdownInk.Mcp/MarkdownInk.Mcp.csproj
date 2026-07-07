@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>MarkdownInk.Mcp</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- NuGet Global Tool / MCP Server Packaging -->
+    <PackAsTool>true</PackAsTool>
+    <PackageType>McpServer</PackageType>
+    <ToolCommandName>mdink-mcp</ToolCommandName>
+    <PackageId>MarkdownInk.Mcp</PackageId>
+    <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <Authors>MarkdownInk Contributors</Authors>
+    <Description>MCP server that renders Markdown beautifully to terminal-ready ANSI (headings, syntax-highlighted code, tables, lists, footnotes) via the MarkdownInk engine — Markdig + Spectre.Console + TextMateSharp.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>mcp;markdown;render;terminal;ansi;spectre</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- Docker Container Support -->
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <ContainerRepository>phmatray/markdownink-mcp</ContainerRepository>
+    <ContainerFamily>alpine</ContainerFamily>
+  </PropertyGroup>
+
+  <!-- RuntimeIdentifiers is intentionally NOT set here: for a PackAsTool project it restricts the
+       package to RID-specific assets and breaks `dotnet tool install` on other platforms. The
+       Docker publish passes `-r linux-musl-{x64,arm64}` on the command line only. -->
+
+  <ItemGroup>
+    <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.9" />
+    <PackageReference Include="ModelContextProtocol" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../MarkdownInk/MarkdownInk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MarkdownInk.Mcp.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+    <!-- The MCP registry manifest must ship inside the McpServer package so `dnx`-based clients
+         resolve the version declared here. It lives at the repo root; include it with an explicit
+         PackagePath. -->
+    <None Include="../../.mcp/server.json" Pack="true" PackagePath=".mcp/server.json" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

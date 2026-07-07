@@ -1,0 +1,53 @@
+{
+  "manifest_version": "0.3",
+  "name": "markdownink-mcp",
+  "display_name": "MarkdownInk.Mcp",
+  "version": "1.0.0",
+  "description": "Render Markdown beautifully to terminal-ready ANSI — syntax highlighting, tables, lists, and footnotes — over MCP.",
+  "long_description": "MarkdownInk.Mcp exposes the MarkdownInk rendering engine (Markdig + Spectre.Console + TextMateSharp) as an MCP server, so an AI agent can turn Markdown into beautiful, terminal-ready output: headings, syntax-highlighted fenced code blocks, tables, ordered/unordered/task lists, nested block quotes, footnotes, and OSC-8 clickable links. Output is ANSI-colored by default, or plain text with `ansi: false`.\n\nRequires the **.NET 10 SDK** on your machine: this bundle launches the server on demand with `dnx` (the SDK's NuGet tool runner). Nothing is pre-installed — `dnx` fetches and caches the `MarkdownInk.Mcp` NuGet package on first use.",
+  "author": {
+    "name": "MarkdownInk Contributors",
+    "url": "https://github.com/phmatray/BeautifulMarkdown"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phmatray/BeautifulMarkdown"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "markdown",
+    "render",
+    "terminal",
+    "ansi",
+    "spectre"
+  ],
+  "server": {
+    "type": "binary",
+    "entry_point": "dnx",
+    "mcp_config": {
+      "command": "dnx",
+      "args": [
+        "MarkdownInk.Mcp",
+        "--yes"
+      ]
+    }
+  },
+  "tools": [
+    {
+      "name": "render_markdown",
+      "description": "Render a Markdown string to beautiful terminal-ready output (ANSI by default)."
+    },
+    {
+      "name": "render_markdown_file",
+      "description": "Read a Markdown file from disk and render it to beautiful terminal-ready output (ANSI by default)."
+    }
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ]
+  }
+}
