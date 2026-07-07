@@ -27,8 +27,13 @@ public sealed class MarkdownRenderService : IMarkdownRenderService
         var writer = new StringWriter();
         var console = AnsiConsole.Create(new AnsiConsoleSettings
         {
+            // Force capabilities explicitly so the output is a function of the requested settings
+            // ONLY — never of the server's own environment (TTY, locale, NO_COLOR, CI). This server
+            // renders for the *client's* terminal, so ansi:true must always emit escapes and
+            // ansi:false must always be plain. Pairing Ansi=No with NoColors guarantees no SGR
+            // escapes leak into plain-text output (Ansi=No alone proved environment-dependent in CI).
             Ansi = ansi ? AnsiSupport.Yes : AnsiSupport.No,
-            ColorSystem = ColorSystemSupport.TrueColor,
+            ColorSystem = ansi ? ColorSystemSupport.TrueColor : ColorSystemSupport.NoColors,
             Interactive = InteractionSupport.No,
             Out = new AnsiConsoleOutput(writer),
         });
@@ -36,6 +41,11 @@ public sealed class MarkdownRenderService : IMarkdownRenderService
         // There is no real TTY behind the StringWriter, so pin the width explicitly rather than
         // letting Spectre fall back to a default/detected size.
         console.Profile.Width = width;
+
+        // Pin Unicode on so box-drawing (heading rules, table borders) renders identically
+        // everywhere — without this, Spectre falls back to ASCII on hosts it reads as non-Unicode
+        // (e.g. CI runners), producing different output than a developer sees locally.
+        console.Profile.Capabilities.Unicode = true;
 
         var document = Markdown.Parse(markdown, _pipeline);
         new SpectreRenderer(console).Render(document);
