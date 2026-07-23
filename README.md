@@ -160,6 +160,15 @@ the marketing site. Beyond that:
 
 See the [open issues](https://github.com/Atypical-Consulting/MarkdownInk/issues) for what's next.
 
+## Atypical MCP servers
+
+Part of a suite of Model Context Protocol servers by Atypical Consulting:
+
+- [RoselineMCP](https://github.com/Atypical-Consulting/RoselineMCP) — Roslyn code intelligence for AI agents
+- [ASTral](https://github.com/Atypical-Consulting/ASTral) — structured code retrieval (tree-sitter)
+- [AdrMcp](https://github.com/Atypical-Consulting/AdrMcp) — Architecture Decision Records over MCP
+- [MarkdownInk](https://github.com/Atypical-Consulting/MarkdownInk) — Markdown rendering for the terminal
+
 <!-- portfolio-sections:start -->
 
 ## Contributing
