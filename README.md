@@ -1,3 +1,5 @@
+![MarkdownInk banner](.github/banner.png)
+
 # MarkdownInk (mdink)
 
 <!-- mcp-name: io.github.Atypical-Consulting/markdownink-mcp -->
