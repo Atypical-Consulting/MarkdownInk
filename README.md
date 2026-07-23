@@ -124,6 +124,23 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
+## Roadmap
+
+MarkdownInk 1.0.0 ships the `mdink` CLI, the `MarkdownInk.Mcp` server, Docker/MCPB packaging, and
+the marketing site. Beyond that:
+
+- [ ] CLI flags for output width and a `--no-color`/plain-text mode (today only the MCP tools
+      expose `ansi`/`width`; the `mdink` binary always renders full-width ANSI)
+- [ ] A selectable syntax theme beyond TextMateSharp's bundled VS Code Dark+ (light-terminal users
+      currently get one look)
+- [ ] Package the `mdink` CLI for Homebrew/Scoop/WinGet so `dotnet tool install` isn't the only
+      install path
+- [ ] Broader Markdown coverage — e.g. Mermaid/diagram fences and image previews in supported
+      terminals
+- [ ] A pager/scroll mode for documents taller than the terminal, instead of a single full render
+
+See the [open issues](https://github.com/Atypical-Consulting/MarkdownInk/issues) for what's next.
+
 <!-- portfolio-sections:start -->
 
 ## Contributing
