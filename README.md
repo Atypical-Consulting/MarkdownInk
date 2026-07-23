@@ -2,6 +2,25 @@
 
 # MarkdownInk (mdink)
 
+<!-- portfolio-toc:start -->
+
+## Table of Contents
+
+- [The problem](#the-problem)
+- [The solution](#the-solution)
+- [Quick start (CLI)](#quick-start-cli)
+- [Use it with an AI agent (MCP)](#use-it-with-an-ai-agent-mcp)
+- [Install](#install)
+- [Features](#features)
+- [Supported languages](#supported-languages)
+- [Built with](#built-with)
+- [License](#license)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+
+<!-- portfolio-toc:end -->
+
+
 <!-- mcp-name: io.github.Atypical-Consulting/markdownink-mcp -->
 
 **Markdown, rendered beautifully in your terminal** — as the `mdink` CLI, or as an MCP server so AI
