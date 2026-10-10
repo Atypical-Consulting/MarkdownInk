@@ -22,10 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.39.1" />
-    <PackageReference Include="Spectre.Console" Version="0.50.0" />
+    <PackageReference Include="Markdig" Version="0.45.0" />
+    <PackageReference Include="Spectre.Console" Version="0.57.2" />
     <PackageReference Include="TextMateSharp" Version="1.0.70" />
-    <PackageReference Include="TextMateSharp.Grammars" Version="1.0.69" />
+    <PackageReference Include="TextMateSharp.Grammars" Version="1.0.70" />
   </ItemGroup>
 
 </Project>
